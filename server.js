@@ -151,8 +151,27 @@ app.get('/api/search', authenticate, (req, res) => {
 });
 
 
-// Serve uploaded files
-app.use('/uploads', express.static(UPLOAD_DIR));
+// Serve uploaded files with GitHub Fallback (CDN Mode)
+app.get('/uploads/:filename', (req, res) => {
+    const filename = req.params.filename;
+    const localPath = path.join(UPLOAD_DIR, filename);
+
+    // 1. Try to serve from local disk
+    if (fs.existsSync(localPath)) {
+        res.sendFile(localPath);
+    } else {
+        // 2. If missing (deleted by Render), redirect to GitHub Raw URL (Permanent Storage)
+        if (owner && repo) {
+            // raw.githubusercontent.com/USER/REPO/BRANCH/PATH
+            const githubUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${process.env.GITHUB_BRANCH || 'main'}/${UPLOAD_DIR}/${filename}`;
+            res.redirect(githubUrl);
+        } else {
+            res.status(404).json({ error: 'File not found locally and GitHub fallback not configured' });
+        }
+    }
+});
+
+// app.use('/uploads', express.static(UPLOAD_DIR)); // Disabled standard static serving in favor of smart route
 
 app.listen(PORT, () => {
     console.log(`
