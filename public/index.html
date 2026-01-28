@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexUpload | Premium File Server</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <main class="glass-container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-cloud-arrow-up"></i>
+                <h1>Nex<span>Upload</span></h1>
+            </div>
+            <div class="api-status">
+                <span class="status-dot"></span>
+                API Connected
+            </div>
+        </header>
+
+        <section class="upload-zone" id="dropZone">
+            <input type="file" id="fileInput" hidden>
+            <div class="upload-content">
+                <div class="icon-box">
+                    <i class="fas fa-upload"></i>
+                </div>
+                <h2>Drop files here or <span>browse</span></h2>
+                <p>Upload your files to GitHub & Local Server instantly</p>
+            </div>
+            <div class="progress-container" id="progressContainer">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </section>
+
+        <section class="api-key-section">
+            <div class="input-group">
+                <i class="fas fa-user-shield"></i>
+                <input type="password" id="apiKey" placeholder="Enter Server Secret Key (from .env)...">
+                <button id="saveKeyBtn">Connect</button>
+            </div>
+        </section>
+
+        <section class="files-list-section">
+            <div class="section-header">
+                <h3><i class="fas fa-folder-open"></i> Uploaded Files</h3>
+                <button id="refreshBtn" class="icon-btn"><i class="fas fa-sync-alt"></i></button>
+            </div>
+            <div class="files-grid" id="filesGrid">
+                <!-- Files will be injected here -->
+                <div class="loading-state">
+                    <i class="fas fa-circle-notch fa-spin"></i>
+                    <p>Enter API key to load files...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="toast" id="toast">File uploaded successfully!</div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
